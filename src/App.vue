@@ -16,50 +16,26 @@
       </div>
     </div>
 
-    <MoviesList :movies="movies"></MoviesList>
+    <MoviesList/>
 
-    <div class="footer">
-        <div class="container">
-            <div class="row align-items-center no-gutters border-top py-2">
-                <!-- Desc -->
-                <div class="col-md-6 col-12">
-                    <small>© 2021 Powred by <b>Saymon Tavares</b></small>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- end -->
+    <Footer/>
 </template>
 
 <script>
-import MoviesList from './components/MoviesList.vue'
+import MoviesList from './components/MoviesList'
+import Footer from "./components/Footer";
 
 export default {
   name: 'App',
   components: {
-    MoviesList
-  },
-  created() {
-    this.getMoviesList()
+    MoviesList,
+    Footer
   },
   data() {
     return {
-      search: null,
-      movies: [],
       urlEntradas: process.env.VUE_APP_BASE_URL_ENTRADAS
     }
   },
-  methods: {
-    async getMoviesList() {
-      try {
-        const response = await this.axios.get(`/movie/now_playing?api_key=${process.env.VUE_APP_TMDB_API_KEY}&language=pt-BR&page=1`)
-        this.movies = response.data.results
-      } catch (ex) {
-        // eslint-disable-next-line
-        console.warn(ex)
-      }
-    }
-  }
 }
 </script>
 

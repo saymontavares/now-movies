@@ -4,9 +4,14 @@ import axios from './plugins/axios'
 import 'bootstrap'
 import './assets/css/theme.min.css'
 import './assets/css/bootstrap-icons.css'
+import VueCookies from "vue3-cookies"
 
-const app = createApp(App);
+const app = createApp(App)
 
-app.config.globalProperties.axios = axios;
+app.config.globalProperties.axios = axios
 
-app.mount('#app')
+app.use(VueCookies, {
+        expireTimes: "362d",
+        secure: true
+    })
+    .mount('#app')

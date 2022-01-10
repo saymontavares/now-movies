@@ -9,7 +9,7 @@
                         </div>
 
                         <div class="col-2">
-                            <button type="button" class="btn btn-primary btn-block">
+                            <button type="button" class="btn btn-primary btn-block" @click="handleClickMyFavorites">
                                 <i class="bi bi-heart-fill mr-1" style="color: #e35d6a"></i>Meus Favoritos
                             </button>
                         </div>
@@ -22,7 +22,7 @@
     <div class="container">
         <div class="row ml-1">
             <div class="row row-cols-1 row-cols-md-4 g-4">
-                <div class="col mb-3" v-for="(movie, k) in movies" :key="movie.id">
+                <div class="col mb-3" v-for="(movie, key) in movies" :key="movie.id">
                     <div class="card h-100">
                         <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}`" class="card-img-top">
                         <div class="card-body">
@@ -40,8 +40,8 @@
                                     </div>
                                 </div>
                                 <div class="col-4">
-                                    <button type="button" class="btn btn-light btn-block" @click="handleClickFavoriteMovie(k)">
-                                        <i class="bi bi-heart"></i>
+                                    <button type="button" class="btn btn-light btn-block" @click="handleClickFavoriteMovie(key)">
+                                        <i :class="{bi: true, 'bi-heart-fill': movie.favorite, 'bi-heart': !movie.favorite}" :style="{color: movie.favorite ? '#e35d6a' : '#18113c'}"></i>
                                     </button>
                                 </div>
                             </div>
@@ -58,20 +58,61 @@
 
 <script>
 export default {
-    props: {
-        movies: {
-            type: Array,
-            required: true
-        }
-    },
     data() {
         return {
-
+            movies: []
         }
+    },
+    created() {
+        this.getMoviesList()
     },
     methods: {
         handleClickFavoriteMovie(key) {
-            console.log(this.movies[key])
+            let movies = this.$cookies.get('favorite_movie') == null ? [] : JSON.parse(this.$cookies.get('favorite_movie'))
+            let movie = this.movies[key]
+            let check = movies.find(item => {
+                return item.id == movie.id
+            })
+
+            if (!movie.favorite) {
+                // add
+                if (!check) {
+                    movies.push({
+                        id: movie.id,
+                        poster_path: movie.poster_path,
+                        release_date: movie.release_date,
+                        title: movie.title,
+                        key: key
+                    })
+                    this.$cookies.set('favorite_movie', JSON.stringify(movies))
+                    this.movies[key].favorite = true
+                }
+            } else {
+                // remove
+                let id
+                movies.find((item, k) => {
+                    if (item.key == key) {
+                        id = k
+                    }
+                })
+                movies.splice(id, 1)
+                this.$cookies.set('favorite_movie', JSON.stringify(movies))
+                this.movies[key].favorite = false
+            }
+        },
+        async getMoviesList() {
+            try {
+                const response = await this.axios.get(`/movie/now_playing?api_key=${process.env.VUE_APP_TMDB_API_KEY}&language=pt-BR&page=1`)
+                this.movies = response.data.results
+                let ckMovies = this.$cookies.get('favorite_movie') == null ? [] : JSON.parse(this.$cookies.get('favorite_movie'))
+                ckMovies.map(item => this.movies[item.key].favorite = true)
+            } catch (ex) {
+                // eslint-disable-next-line
+                console.warn(ex)
+            }
+        },
+        handleClickMyFavorites() {
+            alert('ok')
         }
     }
 }
