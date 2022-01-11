@@ -4,7 +4,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="ModalMyFavoriteLabel"><i class="bi bi-heart mr-2"></i>Meus Filmes Favoritos</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"><i class="bi bi-x"></i></button>
             </div>
             <div class="modal-body">
                 <div class="row" v-show="movies && movies.length > 0">
@@ -91,3 +91,17 @@ export default {
     }
 }
 </script>
+
+<style scoped>
+    .btn-close {
+        box-sizing: content-box;
+        width: 1em;
+        height: 1em;
+        padding: 0.25em 0.25em;
+        color: #000;
+        border: 0;
+        border-radius: 0.25rem;
+        opacity: .5;
+        background-color: transparent;
+    }
+</style>

@@ -27,8 +27,8 @@
     </div>
 
     <div class="container">
-        <div class="row ml-1">
-            <div class="col-sm-12 col-md-3 mb-3" v-for="(movie, key) in filterListMovies" :key="movie.id">
+        <transition-group class="row ml-1" name="list" tag="div" enter-active-class="animate__animated animate__fadeIn animate__faster" leave-active-class="animate__animated animate__fadeOut animate__faster">
+            <div class="col-sm-12 col-md-3 mb-3" v-for="movie in filterListMovies" :key="movie.id">
                 <div class="card bg-dark text-white">
                     <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}`" class="card-img" :alt="movie.title">
                     <div class="card-img-overlay">
@@ -48,7 +48,7 @@
                                 </div>
                             </div>
                             <div class="col-4">
-                                <button type="button" class="btn btn-light btn-block" @click="handleClickFavoriteMovie(key)">
+                                <button type="button" class="btn btn-light btn-block" @click="handleClickFavoriteMovie(movie.key)">
                                     <i :class="{bi: true, 'bi-heart-fill': movie.favorite, 'bi-heart': !movie.favorite}" :style="{color: movie.favorite ? '#e35d6a' : '#18113c'}"></i>
                                 </button>
                             </div>
@@ -59,13 +59,14 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </transition-group>
     </div>
 
     <ModalMyFavorites :listMovies="movies" />
 </template>
 
 <script>
+import 'animate.css'
 import ModalMyFavorites from "./ModalMyFavorites";
 
 export default {
@@ -121,6 +122,7 @@ export default {
                 this.movies = response.data.results
                 let ckMovies = this.$cookies.get('favorite_movie') == null ? [] : JSON.parse(this.$cookies.get('favorite_movie'))
                 ckMovies.map(item => this.movies[item.key].favorite = true)
+                this.movies.map((item, k) => item.key = k)
             } catch (ex) {
                 // eslint-disable-next-line
                 console.warn(ex)
