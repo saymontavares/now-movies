@@ -4,7 +4,7 @@ import axios from './plugins/axios'
 import 'bootstrap'
 import './assets/css/theme.min.css'
 import './assets/css/bootstrap-icons.css'
-import VueCookies from "vue3-cookies"
+import VueCookies from 'vue3-cookies'
 
 const app = createApp(App)
 
