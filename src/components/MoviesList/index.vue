@@ -30,7 +30,7 @@
         <transition-group class="row ml-1" name="list" tag="div" enter-active-class="animate__animated animate__fadeIn animate__faster" leave-active-class="animate__animated animate__fadeOut animate__faster">
             <div class="col-sm-12 col-md-3 mb-3" v-for="movie in filterListMovies" :key="movie.id">
                 <div class="card bg-dark text-white">
-                    <img :src="`https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}`" class="card-img" :alt="movie.title">
+                    <img v-lazy="`https://image.tmdb.org/t/p/w220_and_h330_face${movie.poster_path}`" class="card-img" :alt="movie.title">
                     <div class="card-img-overlay">
                         <h4 class="card-title" style="color: #f8f9fa">{{ movie.title }}</h4>
                         <p class="card-text">{{ `${movie.overview.substring(0, 150)}...` }}</p>
