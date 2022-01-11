@@ -3,9 +3,7 @@
 [![vue package: v3.2.26](https://img.shields.io/badge/vue.js%20package:-%20v3.2.26-green.svg?style=flat)](https://www.npmjs.com/package/vue)
 [![Netlify Status](https://api.netlify.com/api/v1/badges/f19e103d-1e3e-470b-884c-232055f37fb8/deploy-status)](https://app.netlify.com/sites/now-filmes/deploys)
 
-A calculator styled after iPhone calculator. It does what you expect it to: add, subtract, multiply and divide. Use the mouse pointer or the numbers.
-
-Go wild. Do math.
+Organize your list of favorite movies or movies you've watched, you can search for movies that are coming out and organize them in your list.
 
 ### Table of Contents
 
