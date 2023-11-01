@@ -118,7 +118,11 @@ export default {
         },
         async getMoviesList() {
             try {
-                const response = await this.axios.get(`/movie/now_playing?api_key=${process.env.VUE_APP_TMDB_API_KEY}&language=pt-BR&page=1`)
+                const response = await this.axios.get(`/movie/now_playing?api_key=${process.env.VUE_APP_TMDB_API_KEY}&language=pt-BR&page=1`, {
+                    headers: {
+                        "Authorization": `Bearer ${process.env.VUE_APP_TMDB_API_TOKEN}`
+                    }
+                })
                 this.movies = response.data.results
                 let ckMovies = this.$cookies.get('favorite_movie') == null ? [] : JSON.parse(this.$cookies.get('favorite_movie'))
                 ckMovies.map(item => this.movies[item.key].favorite = true)
